@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Stjepan Hauser - Spin to Win!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a0ca3;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --dark: #14213d;
+            --light: #f8f9fa;
+            --gold: #ffd60a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .hauser-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 1.5rem;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 3.5rem;
+            background: linear-gradient(to right, #3a0ca3, #f72585);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+        
+        .birthday-text {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        .form-container, .wheel-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            transition: all 0.4s ease;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .form-container:hover, .wheel-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(58, 12, 163, 0.15);
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.4s;
+            width: 100%;
+            box-shadow: 0 6px 20px rgba(58, 12, 163, 0.25);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        button:disabled {
+            background: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .wheel-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        #wheel {
+            width: 350px;
+            height: 350px;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 0 12px white, 0 0 0 14px #e9ecef, 0 15px 40px rgba(0,0,0,0.2);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform: rotate(0deg);
+        }
+        
+        .wheel-item {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            font-size: 0;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        .wheel-center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            border: 6px solid var(--dark);
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            z-index: 10;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+        
+        .result-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s;
+        }
+        
+        .result-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9);
+            transition: all 0.4s;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .result-modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .modal-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+        
+        .prize-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin: 1.5rem auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent);
+            opacity: 0;
+            z-index: 1000;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .whatsapp-btn {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            margin-top: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .whatsapp-btn:hover {
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .whatsapp-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-btn:hover::after {
+            left: 100%;
+        }
+        
+        .spin-again-btn {
+            background: linear-gradient(to right, #6c757d, #495057);
+            margin-top: 1rem;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            width: auto;
+            padding: 5px;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hauser-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .form-container, .wheel-container {
+                padding: 1.8rem;
+            }
+            
+            #wheel {
+                width: 280px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="hauser-main-pic.jpeg" alt="Stjepan Hauser" class="hauser-image">
+            <h1>Happy Birthday Stjepan Hauser!</h1>
+            <p class="subtitle">Celebrating the Cello Virtuoso</p>
+            <p class="birthday-text">Spin the wheel for a chance to win amazing prizes!</p>
+        </header>
+        
+        <div class="form-container" id="userForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            </div>
+            <button id="submitBtn">SPIN TO WIN!</button>
+        </div>
+        
+        <div class="wheel-container hidden" id="wheelSection">
+            <div class="wheel-wrapper">
+                <img src="https://cdn-icons-png.flaticon.com/512/66/66831.png" alt="Pointer" class="wheel-pointer">
+                <div id="wheel"></div>
+                <div class="wheel-center"></div>
+                <button id="spinBtn">SPIN THE WHEEL!</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="result-modal" id="resultModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">×</button>
+            <h2 id="resultTitle">Congratulations!</h2>
+            <p id="resultText">You've won an amazing prize!</p>
+            <img id="prizeImage" src="" alt="Prize" class="prize-image">
+            <button class="whatsapp-btn" id="whatsappBtn">
+                <span>Claim Your Prize on WhatsApp</span>
+            </button>
+            <button class="spin-again-btn" id="spinAgainBtn">Spin Again</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form elements
+            const userForm = document.getElementById('userForm');
+            const wheelSection = document.getElementById('wheelSection');
+            const submitBtn = document.getElementById('submitBtn');
+            const spinBtn = document.getElementById('spinBtn');
+            const resultModal = document.getElementById('resultModal');
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const spinAgainBtn = document.getElementById('spinAgainBtn');
+            const closeModal = document.getElementById('closeModal');
+            
+            // User data
+            let userData = {
+                name: '',
+                email: '',
+                phone: '',
+                prize: ''
+            };
+            
+            // Wheel configuration using your local images
+            const prizes = [
+                { 
+                    text: "iPhone 16 Pro", 
+                    color: "#0071e3", 
+                    prizeImage: "iphone-16-512gb-verde-acqua.jpg"
+                },
+                { 
+                    text: "Premium Wine", 
+                    color: "#a4161a", 
+                    prizeImage: "money-pic.jpg"
+                },
+                { 
+                    text: "Luxury Car", 
+                    color: "#ff9e00", 
+                    prizeImage: "nr-hero-2.avif"
+                },
+                { 
+                    text: "$5,000 Cash", 
+                    color: "#2ec4b6", 
+                    prizeImage: "money-pic.jpg"
+                },
+                { 
+                    text: "$10,000 Cash", 
+                    color: "#8338ec", 
+                    prizeImage: "money-pic.jpg"
+                },
+                { 
+                    text: "$20,000 Cash", 
+                    color: "#06d6a0", 
+                    prizeImage: "money-pic.jpg"
+                },
+                { 
+                    text: "Private Concert", 
+                    color: "#f72585", 
+                    prizeImage: "Concert.jpg"
+                },
+                { 
+                    text: "Signed Album", 
+                    color: "#3a0ca3", 
+                    prizeImage: "Album-CD.jpg"
+                },
+                { 
+                    text: "Hauser T-Shirt", 
+                    color: "#4cc9f0", 
+                    prizeImage: "hauser-tshirt.jpg"
+                },
+                { 
+                    text: "Exclusive Jewelry", 
+                    color: "#ffbe0b", 
+                    prizeImage: "jewelry1.jpg"
+                },
+                { 
+                    text: "Special Pillow", 
+                    color: "#fb5607", 
+                    prizeImage: "pilow.jpg"
+                }
+            ];
+            
+            const wheel = document.getElementById('wheel');
+            let isSpinning = false;
+            let currentRotation = 0;
+            
+            // Create wheel segments (no text shown)
+            function createWheel() {
+                const segmentAngle = 360 / prizes.length;
+                
+                prizes.forEach((prize, index) => {
+                    const segment = document.createElement('div');
+                    segment.className = 'wheel-item';
+                    segment.style.backgroundColor = prize.color;
+                    segment.style.transform = `rotate(${segmentAngle * index}deg)`;
+                    
+                    // Position correctly in segment
+                    segment.style.clipPath = `polygon(0 0, 100% 0, 100% 100%)`;
+                    segment.style.transformOrigin = 'bottom right';
+                    
+                    wheel.appendChild(segment);
+                });
+            }
+            
+            // Handle form submission
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                
+                if (!name || !email || !phone) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                if (!validateEmail(email)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                if (!validatePhone(phone)) {
+                    alert('Please enter a valid phone number');
+                    return;
+                }
+                
+                // Save user data
+                userData = {
+                    name,
+                    email,
+                    phone,
+                    prize: ''
+                };
+                
+                // Show wheel section
+                userForm.classList.add('hidden');
+                wheelSection.classList.remove('hidden');
+                
+                // Create wheel if not already created
+                if (wheel.children.length === 0) {
+                    createWheel();
+                }
+            });
+            
+            // Spin the wheel
+            spinBtn.addEventListener('click', function() {
+                if (isSpinning) return;
+                
+                isSpinning = true;
+                spinBtn.disabled = true;
+                spinBtn.textContent = "Spinning...";
+                
+                // Random rotation (5-10 full rotations plus segment offset)
+                const segmentAngle = 360 / prizes.length;
+                const randomSegment = Math.floor(Math.random() * prizes.length);
+                const extraRotation = Math.random() * 30 + 10; // 10-40 degrees extra
+                const rotation = currentRotation + 360 * 5 + (segmentAngle * randomSegment) + extraRotation;
+                
+                wheel.style.transform = `rotate(${-rotation}deg)`;
+                currentRotation = rotation;
+                
+                // Determine prize after spin completes
+                setTimeout(() => {
+                    const normalizedRotation = rotation % 360;
+                    const winningSegment = Math.floor((360 - normalizedRotation) / segmentAngle) % prizes.length;
+                    const prize = prizes[winningSegment];
+                    
+                    userData.prize = prize.text;
+                    
+                    // Show result
+                    showResult(prize);
+                    isSpinning = false;
+                    spinBtn.disabled = false;
+                    spinBtn.textContent = "SPIN THE WHEEL!";
+                }, 4000);
+            });
+            
+            // Show winning result
+            function showResult(prize) {
+                const resultTitle = document.getElementById('resultTitle');
+                const resultText = document.getElementById('resultText');
+                const prizeImage = document.getElementById('prizeImage');
+                
+                resultTitle.textContent = "Congratulations!";
+                resultText.textContent = `You've won: ${prize.text}!`;
+                
+                prizeImage.src = prize.prizeImage;
+                prizeImage.alt = prize.text;
+                
+                resultModal.classList.add('active');
+                createConfetti();
+            }
+            
+            // Create confetti effect
+            function createConfetti() {
+                const colors = ['#3a0ca3', '#f72585', '#4cc9f0', '#ffbe0b', '#fb5607'];
+                
+                for (let i = 0; i < 150; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.width = `${Math.random() * 12 + 6}px`;
+                    confetti.style.height = `${Math.random() * 12 + 6}px`;
+                    confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
+                    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                    document.body.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }
+            
+            // WhatsApp sharing with your number
+            whatsappBtn.addEventListener('click', function() {
+                let message = `Hello! I just participated in Stjepan Hauser's birthday celebration!\n\n`;
+                message += `*Name:* ${userData.name}\n`;
+                message += `*Email:* ${userData.email}\n`;
+                message += `*Phone:* ${userData.phone}\n\n`;
+                message += `*Prize Won:* ${userData.prize}\n\n`;
+                message += `Happy Birthday Stjepan Hauser! 🎻🎉`;
+                
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/385952746965?text=${encodedMessage}`, '_blank');
+            });
+            
+            // Spin again button
+            spinAgainBtn.addEventListener('click', function() {
+                resultModal.classList.remove('active');
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                resultModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            resultModal.addEventListener('click', function(e) {
+                if (e.target === resultModal) {
+                    resultModal.classList.remove('active');
+                }
+            });
+            
+            // Helper functions
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            function validatePhone(phone) {
+                const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+                return re.test(phone);
+            }
+        });
+    </script>
+</body>
+</html>
